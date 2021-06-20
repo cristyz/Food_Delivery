@@ -2,7 +2,9 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet, Image} from 'react-native';
 import {Button, TextInput} from 'react-native-paper';
 
-import {useAuth} from '../authContext/auth';
+import {useAuth} from '../../authContext/auth';
+
+import userCreate from '../../services/userCreate';
 
 export default ({navigation}) => {
   const [userName, setUserName] = useState('');
@@ -10,14 +12,14 @@ export default ({navigation}) => {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState('');
 
-  const {Login, LoginAnonymus} = useAuth();
+  const {LoginAnonymus} = useAuth();
 
   return (
     <View style={style.container}>
       <Image
         style={style.Imagelogo}
         resizeMode="contain"
-        source={require('../assets/imgs/imgUser.png')}
+        source={require('../../assets/imgs/imgUser.png')}
       />
       <TextInput
         label="UserName"
@@ -38,29 +40,24 @@ export default ({navigation}) => {
       <Button
         mode="contained"
         onPress={async () => {
-          if (userName === '' || passWord === '') {
-            return setStatus('Write user and pass');
-          } else {
-            setStatus('');
-            setLoading(true);
-            await Login(userName, passWord, setStatus, setLoading);
-          }
+          setLoading(true);
+          userCreate(userName, passWord, setStatus, setLoading);
         }}
         style={style.button}
         loading={loading}>
-        Login
+        Create
       </Button>
 
       <Text>{status}</Text>
 
       <View style={style.singUpView}>
-        <Text>Don't have an account? </Text>
+        <Text>Back to </Text>
         <Text
           onPress={() => {
-            navigation.navigate('SingUpScreen');
+            navigation.navigate('LoginScreen');
           }}
           style={style.singUpText}>
-          Sing Up
+          Login Page
         </Text>
       </View>
 

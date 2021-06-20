@@ -15,7 +15,7 @@ export const AuthProvider = ({children}) => {
       const token = await AsyncStorage.getItem('token');
 
       if (token) {
-        setAuth(true);
+        chekoutUser();
       } else {
         setAuth(false);
       }
@@ -50,9 +50,16 @@ export const AuthProvider = ({children}) => {
     setAuth(false);
   }
 
-  function LoginAnonymus() {
+  async function chekoutUser() {
+    setUser('Crist');
+    // If then
+    setAuth(true);
+  }
+
+  async function LoginAnonymus() {
     setAuth(true);
     setUser('Anonymus');
+    await AsyncStorage.setItem('token', 'anonymus');
   }
 
   return (
