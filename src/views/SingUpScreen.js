@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, StatusBar, Image} from 'react-native';
+import {View, Text, StyleSheet, Image} from 'react-native';
 import {Button, TextInput} from 'react-native-paper';
+import {useAuth} from '../authContext/auth';
 
 import singUp from '../services/singup';
 
@@ -9,12 +10,15 @@ export default ({navigation}) => {
   const [passWord, setPassWord] = useState('');
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState('');
+
+  const {LoginAnonymus} = useAuth();
+
   return (
     <View style={style.container}>
       <Image
         style={style.Imagelogo}
         resizeMode="contain"
-        source={require('../imgs/imgUser.png')}
+        source={require('../assets/imgs/imgUser.png')}
       />
       <TextInput
         label="UserName"
@@ -56,20 +60,14 @@ export default ({navigation}) => {
         </Text>
       </View>
 
-      <Text style={style.marginTextTop}>Or</Text>
+      <Text style={style.marginTextTop_Bottom}>Or</Text>
 
       <View style={style.singUpView}>
         <Text>Enter </Text>
-        <Text
-          onPress={() => {
-            navigation.navigate('HomeScreen');
-          }}
-          style={style.textAnonimate}>
+        <Text onPress={LoginAnonymus} style={style.textAnonimate}>
           without account
         </Text>
       </View>
-
-      <StatusBar backgroundColor="#fff" barStyle="dark-content" />
     </View>
   );
 };
@@ -95,14 +93,13 @@ const style = StyleSheet.create({
   },
   singUpView: {
     flexDirection: 'row',
-    marginTop: 15,
   },
   singUpText: {
     color: '#560cce',
     fontWeight: 'bold',
   },
-  marginTextTop: {
-    marginTop: 10,
+  marginTextTop_Bottom: {
+    marginVertical: 10,
   },
   textAnonimate: {
     color: '#AAA',

@@ -1,5 +1,6 @@
 import 'react-native-gesture-handler';
 import React from 'react';
+import {StatusBar} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 
 // Pages
@@ -14,6 +15,7 @@ function App() {
       <AuthProvider>
         <Routers />
       </AuthProvider>
+      <StatusBar backgroundColor="#fff" barStyle="dark-content" />
     </NavigationContainer>
   );
 }

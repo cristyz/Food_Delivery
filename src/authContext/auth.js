@@ -8,7 +8,7 @@ const AuthContext = createContext({});
 
 export const AuthProvider = ({children}) => {
   const [user, setUser] = useState('');
-  const [auth, setAuth] = useState(false);
+  const [auth, setAuth] = useState(null);
 
   useEffect(() => {
     async function authVerification() {
@@ -16,6 +16,8 @@ export const AuthProvider = ({children}) => {
 
       if (token) {
         setAuth(true);
+      } else {
+        setAuth(false);
       }
     }
 
@@ -48,8 +50,14 @@ export const AuthProvider = ({children}) => {
     setAuth(false);
   }
 
+  function LoginAnonymus() {
+    setAuth(true);
+    setUser('Anonymus');
+  }
+
   return (
-    <AuthContext.Provider value={{auth, token: '', user, Login, SingOut}}>
+    <AuthContext.Provider
+      value={{auth, token: '', user, Login, SingOut, LoginAnonymus}}>
       {children}
     </AuthContext.Provider>
   );
