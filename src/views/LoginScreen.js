@@ -2,10 +2,16 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet, StatusBar, Image} from 'react-native';
 import {Button, TextInput} from 'react-native-paper';
 
+import {useAuth} from '../authContext/auth';
+
 export default ({navigation}) => {
   const [userName, setUserName] = useState('');
   const [passWord, setPassWord] = useState('');
   const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState('');
+
+  const {Login} = useAuth();
+
   return (
     <View style={style.container}>
       <Image
@@ -31,14 +37,24 @@ export default ({navigation}) => {
 
       <Button
         mode="contained"
-        onPress={() => setLoading(!loading)}
+        onPress={async () => {
+          if (userName === '' || passWord === '') {
+            return setStatus('Write user and pass');
+          } else {
+            setStatus('');
+            setLoading(true);
+            await Login(userName, passWord, setStatus, setLoading);
+          }
+        }}
         style={style.button}
         loading={loading}>
         Login
       </Button>
 
+      <Text>{status}</Text>
+
       <View style={style.singUpView}>
-        <Text>Don't have an account?</Text>
+        <Text>Don't have an account? </Text>
         <Text
           onPress={() => {
             navigation.navigate('SingUpScreen');
@@ -90,7 +106,6 @@ const style = StyleSheet.create({
   },
   singUpText: {
     color: '#560cce',
-    marginLeft: 10,
     fontWeight: 'bold',
   },
   marginTextTop: {

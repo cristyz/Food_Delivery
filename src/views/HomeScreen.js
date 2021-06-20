@@ -1,10 +1,15 @@
 import React from 'react';
 import {View, Text, StyleSheet, StatusBar} from 'react-native';
+import {useAuth} from '../authContext/auth';
+
+// Functions
 
 export default ({navigation}) => {
+  const {user, SingOut} = useAuth();
   return (
     <View style={style.container}>
-      <Text> Home Screen </Text>
+      <Text>{user}</Text>
+      <Text onPress={SingOut}>Home Screen</Text>
       <StatusBar backgroundColor="#fff" barStyle="dark-content" />
     </View>
   );
